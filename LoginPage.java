@@ -26,120 +26,110 @@ public class LoginPage implements ActionListener {
 
     public LoginPage(/*JFrame frame*/)
     {
-        loginMessageLabel = new JLabel();
-        loginPanel = new JPanel();
-        namePanel = new JPanel();
-        passwordPanel = new JPanel();
-        submitPanel = new JPanel();
-        submitButton = new JButton("Submit");
-        errorMessage = new JLabel();
-        errorPanel = new JPanel();
-        registerPanel = new JPanel();
-        registerLabel = new JLabel();
-        registerLabelPanel = new JPanel();
-        registerButtonPanel = new JPanel();
-        registerButton = new JButton("Register");
-        nameLabel = new JLabel("E-mail:");
-        passwordLabel = new JLabel();
-        nameField = new JTextField(20);
-        passwordField  = new JPasswordField(13);
-        mainPanel = new JPanel();
+        this.loginMessageLabel = new JLabel();
+        this.loginPanel = new JPanel();
+        this.namePanel = new JPanel();
+        this.passwordPanel = new JPanel();
+        this.submitPanel = new JPanel();
+        this.submitButton = new JButton("Submit");
+        this.errorMessage = new JLabel();
+        this.errorPanel = new JPanel();
+        this.registerPanel = new JPanel();
+        this.registerLabel = new JLabel();
+        this.registerLabelPanel = new JPanel();
+        this.registerButtonPanel = new JPanel();
+        this.registerButton = new JButton("Register");
+        this.nameLabel = new JLabel("E-mail:");
+        this.passwordLabel = new JLabel();
+        this.nameField = new JTextField(20);
+        this.passwordField  = new JPasswordField(13);
+        this.mainPanel = new JPanel();
     //   this.frame = new JFrame();
     }
 
     public JPanel setLoginPanel()
     {
-        namePanel.setLayout(new FlowLayout());
-        nameField.setPreferredSize(new Dimension(30,25));
-        nameField.setActionCommand("name");
-        nameField.addActionListener(new DataBaseConnect());
-        namePanel.add(nameLabel);
-        namePanel.add(nameField);
+        this.namePanel.setLayout(new FlowLayout());
+        this.nameField.setPreferredSize(new Dimension(30,25));
+        this.nameField.setActionCommand("name");
+        this.nameField.addActionListener(new DataBaseConnect());
+        this.namePanel.add(this.nameLabel);
+        this.namePanel.add(this.nameField);
 
-        passwordPanel.setLayout(new FlowLayout());
-        passwordLabel.setText("Password:");
-        passwordField.setActionCommand("password");
-        passwordField.addActionListener(new DataBaseConnect());
-        passwordPanel.add(passwordLabel);
-        passwordPanel.add(passwordField);
-
-
-        submitButton.setActionCommand("submit");
-        submitButton.addActionListener(new ServerConnect());
-        submitPanel.add(submitButton);
-
-        errorPanel.add(errorMessage); // just to show error message
+        this.passwordPanel.setLayout(new FlowLayout());
+        this.passwordLabel.setText("Password:");
+        this.passwordField.setActionCommand("password");
+        this.passwordField.addActionListener(new DataBaseConnect());
+        this.passwordPanel.add(this.passwordLabel);
+        this.passwordPanel.add(this.passwordField);
 
 
-        loginPanel.setLayout(new BoxLayout(loginPanel,BoxLayout.Y_AXIS));
-        loginPanel.add(Box.createVerticalStrut(20));
-        loginMessageLabel.setFont(new Font("", Font.BOLD,30));
-        loginMessageLabel.setText("LOGIN");
-        loginPanel.add(loginMessageLabel);
-        loginPanel.add(namePanel);
-        loginPanel.add(Box.createVerticalStrut(20));
-        loginPanel.add(passwordPanel);
-        loginPanel.add(Box.createVerticalStrut(20));
-        loginPanel.add(submitPanel);
-        loginPanel.add(Box.createVerticalStrut(20));
-        loginPanel.add(errorPanel);
-        return loginPanel;
+        this.submitButton.setActionCommand("submit");
+        this.submitButton.addActionListener(new ServerConnect());
+        this.submitPanel.add(this.submitButton);
+
+        this.errorPanel.add(this.errorMessage); // just to show error message
+
+
+        this.loginPanel.setLayout(new BoxLayout(this.loginPanel,BoxLayout.Y_AXIS));
+        this.loginPanel.add(Box.createVerticalStrut(20));
+        this.loginMessageLabel.setFont(new Font("", Font.BOLD,30));
+        this.loginMessageLabel.setText("LOGIN");
+        this.loginPanel.add(this.loginMessageLabel);
+        this.loginPanel.add(this.namePanel);
+        this.loginPanel.add(Box.createVerticalStrut(20));
+        this.loginPanel.add(this.passwordPanel);
+        this.loginPanel.add(Box.createVerticalStrut(20));
+        this.loginPanel.add(this.submitPanel);
+        this.loginPanel.add(Box.createVerticalStrut(20));
+        this.loginPanel.add(this.errorPanel);
+        return this.loginPanel;
     }
 
-    public JPanel getLoginPanel() {
-        return loginPanel;
-    }
 
-    public JPanel getRegisterPanel() {
-        return registerPanel;
-    }
 
-    public void setRegisterPanel()
+    public JPanel setRegisterPanel()
     {
         JSeparator separator = new JSeparator();
 
-        registerLabelPanel.setLayout(new FlowLayout());
+        this.registerLabelPanel.setLayout(new FlowLayout());
 
-        registerLabelPanel.add(Box.createVerticalStrut(40));
-        registerPanel.add(separator);
+        this.registerLabelPanel.add(Box.createVerticalStrut(40));
+        this.registerPanel.add(separator);
         String message = "New Member? Register";
         Font font = new Font("Times New Roman",Font.PLAIN,20);
 
-        registerLabel.setFont(font);
-        registerLabel.setText(message);
-        registerButtonPanel.setLayout(new FlowLayout());
-        registerButton.setActionCommand("register");
-        registerButton.addActionListener(new MainLoginPanel());
+        this.registerLabel.setFont(font);
+        this.registerLabel.setText(message);
+        this.registerButtonPanel.setLayout(new FlowLayout());
+        this.registerButton.setActionCommand("register");
+        this.registerButton.addActionListener(new MainLoginPanel());
 
-        registerPanel.setLayout(new BoxLayout(registerPanel,BoxLayout.Y_AXIS));
+        this.registerPanel.setLayout(new BoxLayout(this.registerPanel,BoxLayout.Y_AXIS));
         registerPanel.add(Box.createVerticalStrut(30));
-        registerPanel.add(registerLabel);
-        registerPanel.add(Box.createVerticalStrut(30));
-        registerPanel.add(registerButton);
+        this.registerPanel.add(this.registerLabel);
+        this.registerPanel.add(Box.createVerticalStrut(30));
+        this.registerPanel.add(this.registerButton);
 
-
+return this.registerPanel;
     }
 
-    public JPanel getMainPanel()
-    {
-        return mainPanel;
-    }
 
-    public void setMainPanel()
+    public JPanel setMainPanel()
     {
 
-       setLoginPanel();
-       setRegisterPanel();
 
-        mainPanel.add(getLoginPanel(),BorderLayout.NORTH);
+
+        this.mainPanel.add(setLoginPanel(),BorderLayout.NORTH);
        // loginPanel.setLayout(new BoxLayout(mainPanel,BoxLayout.Y_AXIS));
 
-        mainPanel.add(getRegisterPanel() ,BorderLayout.SOUTH);
+        this.mainPanel.add(setRegisterPanel(),BorderLayout.SOUTH);
 
+        return this.mainPanel;
     }
 
     public JPasswordField getPasswordField() {
-        return passwordField;
+        return this.passwordField;
     }
 
     public void actionPerformed(ActionEvent e) {
