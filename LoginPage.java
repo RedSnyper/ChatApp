@@ -103,7 +103,7 @@ public class LoginPage implements ActionListener {
         this.registerLabel.setText(message);
         this.registerButtonPanel.setLayout(new FlowLayout());
         this.registerButton.setActionCommand("register");
-        this.registerButton.addActionListener(new MainLoginPanel());
+        this.registerButton.addActionListener(new Frame());
 
         this.registerPanel.setLayout(new BoxLayout(this.registerPanel,BoxLayout.Y_AXIS));
         registerPanel.add(Box.createVerticalStrut(30));
