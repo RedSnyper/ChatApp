@@ -52,83 +52,86 @@ public class RegisterPage implements ActionListener {
         this.submitButton = new JButton("Submit");
         this.mainPanel = new JPanel();
     }
-    public void setNamePanel()
+    public JPanel setNamePanel()
     {
-        namePanel.add(Box.createVerticalStrut(20));
-        namePanel.setLayout(new FlowLayout());
-        namePanel.add(nameLabel);
-        nameField.setPreferredSize(new Dimension(30,20));
-        nameField.setActionCommand("name");
-        nameField.addActionListener(this);
-        namePanel.add(nameField);
-
+        this.namePanel.add(Box.createVerticalStrut(20));
+        this.namePanel.setLayout(new FlowLayout());
+        this.namePanel.add(this.nameLabel);
+        this.nameField.setPreferredSize(new Dimension(30,20));
+        this.nameField.setActionCommand("name");
+        this.nameField.addActionListener(this);
+        this.namePanel.add(this.nameField);
+        return this.namePanel;
     }
-    public void setMailPanel()
+    public JPanel setMailPanel()
     {
-        mailPanel.setLayout(new FlowLayout());
-        mailPanel.add(emailLabel);
-        emailField.setPreferredSize(new Dimension(30,20));
-        emailField.setActionCommand("email");
-        emailField.addActionListener(this);
-        mailPanel.add(emailField);
+        this.mailPanel.setLayout(new FlowLayout());
+        this.mailPanel.add(emailLabel);
+        this.emailField.setPreferredSize(new Dimension(30,20));
+        this.emailField.setActionCommand("email");
+        this.emailField.addActionListener(this);
+        this.mailPanel.add(emailField);
+        return this.mailPanel;
     }
-    public void setUsernamePanel()
+    public JPanel setUsernamePanel()
     {
-        usernamePanel.setLayout(new FlowLayout());
-        usernamePanel.add(userNameLabel);
-        usernameTextfield.setPreferredSize(new Dimension(30,20));
-        usernameTextfield.setActionCommand("username");
-        usernameTextfield.addActionListener(this);
-        usernamePanel.add(usernameTextfield);
+        this.usernamePanel.setLayout(new FlowLayout());
+        this.usernamePanel.add(userNameLabel);
+        this.usernameTextfield.setPreferredSize(new Dimension(30,20));
+        this.usernameTextfield.setActionCommand("username");
+        this.usernameTextfield.addActionListener(this);
+        this.usernamePanel.add(usernameTextfield);
+        return this.usernamePanel;
     }
-    public void setPasswordPanel()
+    public JPanel setPasswordPanel()
     {
-        passwordPanel.setLayout(new FlowLayout());
-        passwordPanel.add(passwordLabel);
-        passwordPanel.add(passwordField);
-        passwordField.setActionCommand("password");
-        passwordField.addActionListener(this);
+        this.passwordPanel.setLayout(new FlowLayout());
+        this.passwordPanel.add(this.passwordLabel);
+        this.passwordPanel.add(this.passwordField);
+        this.passwordField.setActionCommand("password");
+        this.passwordField.addActionListener(this);
+        return this.passwordPanel;
     }
-    public void setPasswordVerifyErrorPanel()
+    public JPanel setPasswordVerifyErrorPanel(String message)// should take the errror ?
     {
-        passwordVerifyErrorPanel.setLayout(new FlowLayout());
+        this.passwordVerifyErrorPanel.setLayout(new FlowLayout());
+        this.passwordErrorLabel.setText(message);
+        this.passwordVerifyErrorPanel.add(this.passwordErrorLabel);
         //This shows the error message hola idk
+        return this.passwordVerifyErrorPanel;
     }
-    public void setVerifyPasswordPanel()
+    public JPanel setVerifyPasswordPanel()
     {
-        verifyPasswordPanel.setLayout(new FlowLayout());
-        verifyPasswordPanel.add(verifyPassWordField);
-        verifyPasswordPanel.add(verifyPassWordField);
+        this.verifyPasswordPanel.setLayout(new FlowLayout());
+        this.verifyPasswordPanel.add(this.verifyPassWordField);
+        return this.verifyPasswordPanel;
     }
-    public void setButtonPanel()
+    public JPanel setButtonPanel()
     {
-        buttonPanel.setLayout(new FlowLayout());
-        buttonPanel.add(submitButton);
+        this.buttonPanel.setLayout(new FlowLayout());
+        this.buttonPanel.add(this.submitButton);
+        return this.buttonPanel;
     }
-    public void addAllPanels()
+    public JPanel addAllPanels()
     {
-        mainPanel.setLayout(new BoxLayout(mainPanel,BoxLayout.Y_AXIS));
-        mainPanel.add(namePanel);
-        mainPanel.add(mailPanel);
-        mainPanel.add(usernamePanel);
-        mainPanel.add(passwordPanel);
-        mainPanel.add(verifyPasswordPanel);
-        verifyPasswordPanel.setVisible(false);
-        mainPanel.add(verifyPasswordPanel);
-        mainPanel.add(buttonPanel);
-        setNamePanel();
-        setMailPanel();
-        setUsernamePanel();
-        setPasswordPanel();
-        setVerifyPasswordPanel();
-        setButtonPanel();
+        this.mainPanel.setLayout(new BoxLayout(this.mainPanel,BoxLayout.Y_AXIS));
+        this.mainPanel.add(setNamePanel());
+        this.mainPanel.add(setMailPanel());
+        this.mainPanel.add(setUsernamePanel());
+        this.mainPanel.add(setPasswordPanel());
+        this.mainPanel.add(setVerifyPasswordPanel());
+        this.mainPanel.add(setPasswordVerifyErrorPanel(""));
+        //this.verifyPasswordPanel.setVisible(false);
+        //this.mainPanel.add(this.verifyPasswordPanel);
+        this.mainPanel.add(setButtonPanel());
+        return this.mainPanel;
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getActionCommand().equals("password"))
         {
-            setPasswordVerifyErrorPanel();
+            setPasswordVerifyErrorPanel("Password Correct");
             if(passwordField.equals(verifyPassWordField))
             {
                 verifyPasswordPanel.setVisible(true);

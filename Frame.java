@@ -1,21 +1,23 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class Frame {
+public class Frame implements ActionListener {
     private static final int width = 400;
     private static final int breadth = 600;
     private  boolean resizable = false;
     private JFrame frame;
-    private MainLoginPanel mainLoginPanel;
-   // private RegisterPage registerPage;
-   //private LoginPage loginPage;
+    private JPanel mainPanel;
+    private RegisterPage registerPage;
+   private LoginPage loginPage;
     private CardLayout cardLayout;
     public Frame()
     {
         this.frame = new JFrame("Login");
-        this.mainLoginPanel = new MainLoginPanel();
-        //this.loginPage = new LoginPage();
-       // this.registerPage = new RegisterPage();
+        this.mainPanel = new JPanel();
+        this.loginPage = new LoginPage();
+        this.registerPage = new RegisterPage();
         this.cardLayout = new CardLayout();
     }
 
@@ -33,15 +35,22 @@ public class Frame {
         }
 
         frame.setSize(this.width,this.breadth);
-        //loginPage.setMainPanel();
         frame.setLocationRelativeTo(null);
         frame.setResizable(resizable);
-        //frame.add(loginPage.getMainPanel());
-        mainLoginPanel.getMainPanel().setLayout(cardLayout);
-        mainLoginPanel.addAllInOne();
-        frame.add(mainLoginPanel.getMainPanel());
+        mainPanel.setLayout(cardLayout);
+        mainPanel.add("a",loginPage.setMainPanel());
+        mainPanel.add("b",registerPage.addAllPanels());
+        frame.add(mainPanel);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+    @Override
+    public void actionPerformed(ActionEvent e)
+    {
+        if(e.getActionCommand().equals("register"))
+        {
+            cardLayout.next(mainPanel);
+        }
     }
 
     public static void main(String[] args) {
