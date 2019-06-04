@@ -3,14 +3,14 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Frame implements ActionListener {
+public class Frame extends Thread implements ActionListener {
     private static final int width = 400;
-    private static final int breadth = 600;
-    private  boolean resizable = false;
+    private static final int height = 600;
+    private  boolean resizable = true;
     private JFrame frame;
-    private JPanel mainPanel;
+    private JPanel mainPanel; // to add both the loginPage and registerPage ko panels in one main panel
     private RegisterPage registerPage;
-   private LoginPage loginPage;
+    private LoginPage loginPage;
     private CardLayout cardLayout;
     public Frame()
     {
@@ -25,7 +25,7 @@ public class Frame implements ActionListener {
         return frame;
     }
 
-    public void start()
+    public void run()
     {
         try{
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -34,11 +34,11 @@ public class Frame implements ActionListener {
             e.getCause();
         }
 
-        frame.setSize(this.width,this.breadth);
+        frame.setSize(this.width,this.height);
         frame.setLocationRelativeTo(null);
-        frame.setResizable(resizable);
-        mainPanel.setLayout(cardLayout);
-        mainPanel.add("a",loginPage.setMainPanel());
+        frame.setResizable(!resizable);
+        mainPanel.setLayout(cardLayout); // making the main panel a cardlayout
+        mainPanel.add("a",loginPage.setMainPanel()); // adding the LoginPage ko panel and registerPage ko panel here.
         mainPanel.add("b",registerPage.addAllPanels());
         frame.add(mainPanel);
         frame.setVisible(true);
@@ -49,7 +49,7 @@ public class Frame implements ActionListener {
     {
         if(e.getActionCommand().equals("register"))
         {
-            cardLayout.next(mainPanel);
+
         }
     }
 
