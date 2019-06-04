@@ -47,7 +47,7 @@ public class LoginPage implements ActionListener {
     //   this.frame = new JFrame();
     }
 
-    public JPanel setLoginPanel()
+    public JPanel setLoginPanel() //add name, password, submit and error message to a panel called loginpanel and returns this panel
     {
         this.namePanel.setLayout(new FlowLayout());
         this.nameField.setPreferredSize(new Dimension(30,25));
@@ -72,7 +72,7 @@ public class LoginPage implements ActionListener {
 
 
         this.loginPanel.setLayout(new BoxLayout(this.loginPanel,BoxLayout.Y_AXIS));
-        this.loginPanel.add(Box.createVerticalStrut(20));
+        this.loginPanel.add(Box.createVerticalStrut(70));
         this.loginMessageLabel.setFont(new Font("", Font.BOLD,30));
         this.loginMessageLabel.setText("LOGIN");
         this.loginPanel.add(this.loginMessageLabel);
@@ -88,41 +88,34 @@ public class LoginPage implements ActionListener {
 
 
 
-    public JPanel setRegisterPanel()
+    public JPanel setRegisterPanel() // add reigster label and the register button to new panel called registerpanel and returns this
     {
         JSeparator separator = new JSeparator();
-
         this.registerLabelPanel.setLayout(new FlowLayout());
-
-        this.registerLabelPanel.add(Box.createVerticalStrut(40));
+        this.registerPanel.add(Box.createVerticalStrut(60));
         this.registerPanel.add(separator);
         String message = "New Member? Register";
         Font font = new Font("Times New Roman",Font.PLAIN,20);
-
         this.registerLabel.setFont(font);
         this.registerLabel.setText(message);
         this.registerButtonPanel.setLayout(new FlowLayout());
         this.registerButton.setActionCommand("register");
-        this.registerButton.addActionListener(new Frame());
-
+        this.registerButton.addActionListener(new Frame()); // passing the event, the register button click wale to the frame class.
         this.registerPanel.setLayout(new BoxLayout(this.registerPanel,BoxLayout.Y_AXIS));
         registerPanel.add(Box.createVerticalStrut(30));
         this.registerPanel.add(this.registerLabel);
         this.registerPanel.add(Box.createVerticalStrut(30));
         this.registerPanel.add(this.registerButton);
 
-return this.registerPanel;
+        return this.registerPanel;
     }
 
 
-    public JPanel setMainPanel()
+    public JPanel setMainPanel() /* this makes a mainPanel, adds the mathi ko two panels
+                                   MainPanel = loginPanel + RegisterPanel and returns this panel. This panel is
+                                    later used in Frame.java */
     {
-
-
-
         this.mainPanel.add(setLoginPanel(),BorderLayout.NORTH);
-       // loginPanel.setLayout(new BoxLayout(mainPanel,BoxLayout.Y_AXIS));
-
         this.mainPanel.add(setRegisterPanel(),BorderLayout.SOUTH);
 
         return this.mainPanel;
@@ -136,18 +129,10 @@ return this.registerPanel;
 
         if (e.getActionCommand().equals("submit")) {
             try {
-                // Check the login details to data stored in database if not exist show error in catch panel
+                // Check the login details to data stored in database if not exist show / throw error in catch panel
             } catch(Exception exc){
                 // show the error in error panel.
             }
-        }
-        if(e.getActionCommand().equals("register"))
-        {
-
-            //MainLoginPanel mainLoginPanel = new MainLoginPanel();
-            //mainLoginPanel.addAllInOne();
-            //CardLayout cardLayout = (CardLayout) mainLoginPanel.getMainPanel().getLayout();
-            //cardLayout.next(mainLoginPanel.getMainPanel());
         }
     }
 }
