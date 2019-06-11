@@ -23,7 +23,7 @@ public class DataBaseConnect implements ActionListener {
             // ADD DATABASE FUNCTIONALITIES HERE (CHECK FOR HASH AND PASSWORD SECURE FEATURES WHILE AT IT)
 
         }
-    }
+     }
 
 
 }
