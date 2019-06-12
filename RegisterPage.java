@@ -5,9 +5,11 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class RegisterPage implements ActionListener {
+public class RegisterPage extends Thread implements ActionListener {
     private static final int width = 400;
     private static final int height = 600;
+    private JLabel registerLabel;
+    private JPanel registerPanel;
     private JPanel namePanel;
     private JLabel nameLabel;
     private JTextField nameField;
@@ -37,8 +39,10 @@ public class RegisterPage implements ActionListener {
 
     public RegisterPage()
     {
+        this.registerLabel = new JLabel();
+        this.registerPanel = new JPanel();
         this.namePanel = new JPanel();
-        this.nameLabel = new JLabel("Name:");
+        this.nameLabel = new JLabel("Username:");
         this.nameField = new JTextField();
         this.mailPanel = new JPanel();
         this.emailLabel = new JLabel("E-mail:");
@@ -59,25 +63,43 @@ public class RegisterPage implements ActionListener {
         this.mainPanel = new JPanel();
         this.frame = new JFrame("Register");
     }
+
+    public JPanel setRegisterPanel()
+    {
+        this.registerPanel.setLayout(new BoxLayout(this.registerPanel,BoxLayout.Y_AXIS));
+        this.registerPanel.add(Box.createHorizontalStrut(40));
+        this.registerPanel.add(Box.createVerticalStrut(-10));
+        this.registerLabel.setFont(new Font("",Font.BOLD,30));
+        this.registerLabel.setText("Register");
+        this.registerPanel.add(registerLabel);
+
+        return this.registerPanel;
+
+
+    }
     public JPanel setNamePanel() // set the namepanel and returns it, this is later added to the main registerPanel(in allInOne())
     {
         this.namePanel.setLayout(new FlowLayout());
         this.namePanel.add(Box.createVerticalStrut(100));
+        this.namePanel.add(Box.createHorizontalStrut(-20));
         this.namePanel.add(this.nameLabel);
-        this.nameField.setPreferredSize(new Dimension(300,20));
-        this.nameField.setActionCommand("name");
+        this.nameField.setPreferredSize(new Dimension(300,28));
+        this.nameField.setActionCommand("username");
         this.nameField.addActionListener(this);
         this.namePanel.add(this.nameField);
         return this.namePanel;
     }
     public JPanel setMailPanel()// set the email and returns it, this is later added to the main registerPanel(in allInOne())
     {
+        this.mainPanel.setLayout(new BoxLayout(mainPanel,BoxLayout.Y_AXIS));
         this.mailPanel.setLayout(new FlowLayout());
+
         this.mailPanel.add(emailLabel);
-        this.emailField.setPreferredSize(new Dimension(308,20));
+        this.emailField.setPreferredSize(new Dimension(300,20));
         this.emailField.setActionCommand("email");
         this.emailField.addActionListener(this);
         this.mailPanel.add(emailField);
+        this.mainPanel.add(Box.createVerticalStrut(20));
         return this.mailPanel;
     }
     public JPanel setUsernamePanel()// set the userName and returns it, this is later added to the main registerPanel(in allInOne())
@@ -129,6 +151,7 @@ public class RegisterPage implements ActionListener {
 
 
         this.mainPanel.setLayout(new BoxLayout(mainPanel,BoxLayout.Y_AXIS));
+        this.mainPanel.add(setRegisterPanel());
         this.mainPanel.add(setNamePanel());
         this.mainPanel.add(setMailPanel());
         this.mainPanel.add(setUsernamePanel());
@@ -141,21 +164,24 @@ public class RegisterPage implements ActionListener {
         return this.mainPanel;
 
     }
-    public void registerPageFrame()
-    {
-        try{
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        }catch (Exception e)
-        {
-            e.getCause();
-        }
-        frame.setSize(width,height);
-        frame.setSize(width,height);
-        frame.add(addAllPanels());
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    @Override
+    public void run() {
+
+
+        registerPageFrame();
     }
+
+        public void registerPageFrame()
+        {
+            frame.setDefaultLookAndFeelDecorated(true);
+            frame.setResizable(false);
+            frame.setSize(width, height);
+            frame.setSize(width, height);
+            frame.add(addAllPanels());
+            frame.setLocationRelativeTo(null);
+            frame.setVisible(true);
+            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        }
 
 
 
