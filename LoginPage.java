@@ -100,7 +100,7 @@ public class LoginPage implements ActionListener {
         this.registerLabel.setText(message);
         this.registerButtonPanel.setLayout(new FlowLayout());
         this.registerButton.setActionCommand("register");
-        this.registerButton.addActionListener(new Frame()); // passing the event, the register button click wale to the frame class.
+        this.registerButton.addActionListener(this); // passing the event, the register button click wale to the frame class.
         this.registerPanel.setLayout(new BoxLayout(this.registerPanel,BoxLayout.Y_AXIS));
         registerPanel.add(Box.createVerticalStrut(30));
         this.registerPanel.add(this.registerLabel);
