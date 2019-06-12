@@ -6,6 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class RegisterPage implements ActionListener {
+    private static final int width = 400;
+    private static final int height = 600;
     private JPanel namePanel;
     private JLabel nameLabel;
     private JTextField nameField;
@@ -26,6 +28,8 @@ public class RegisterPage implements ActionListener {
     private JPanel buttonPanel;
     private JButton submitButton;
     private JPanel mainPanel;
+    private JFrame frame;
+
 
     public JPanel getMainPanel() {
         return mainPanel;
@@ -53,6 +57,7 @@ public class RegisterPage implements ActionListener {
         this.buttonPanel = new JPanel();
         this.submitButton = new JButton("Submit");
         this.mainPanel = new JPanel();
+        this.frame = new JFrame("Register");
     }
     public JPanel setNamePanel() // set the namepanel and returns it, this is later added to the main registerPanel(in allInOne())
     {
@@ -119,8 +124,10 @@ public class RegisterPage implements ActionListener {
         this.buttonPanel.add(this.submitButton);
         return this.buttonPanel;
     }
-    public JPanel addAllPanels() // add every panel above into a mainPanel, this function returns the mainPanel which is later used in Frame.java class
+    public  JPanel addAllPanels() // add every panel above into a mainPanel, this function returns the mainPanel which is later used in Frame.java class
     {
+
+
         this.mainPanel.setLayout(new BoxLayout(mainPanel,BoxLayout.Y_AXIS));
         this.mainPanel.add(setNamePanel());
         this.mainPanel.add(setMailPanel());
@@ -132,7 +139,25 @@ public class RegisterPage implements ActionListener {
         //this.mainPanel.add(this.verifyPasswordPanel);
         this.mainPanel.add(setButtonPanel());
         return this.mainPanel;
+
     }
+    public void registerPageFrame()
+    {
+        try{
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        }catch (Exception e)
+        {
+            e.getCause();
+        }
+        frame.setSize(width,height);
+        frame.setSize(width,height);
+        frame.add(addAllPanels());
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
