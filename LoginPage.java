@@ -3,7 +3,10 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class LoginPage implements ActionListener {
+public class LoginPage extends Thread implements ActionListener {
+    private static final int width = 400;
+    private static final int height = 600;
+    private  boolean resizable = true;
     private JLabel loginMessageLabel;
     private JPanel loginPanel;
     private JPanel namePanel;
@@ -22,7 +25,8 @@ public class LoginPage implements ActionListener {
     private JTextField nameField;
     private JPasswordField passwordField;
     private JPanel mainPanel;
-    //private JFrame frame;
+    private JFrame frame;
+    //private JFrame jFrame;
 
     public LoginPage(/*JFrame frame*/)
     {
@@ -45,6 +49,7 @@ public class LoginPage implements ActionListener {
         this.passwordField  = new JPasswordField(13);
         this.mainPanel = new JPanel();
     //   this.frame = new JFrame();
+        this.frame = new JFrame();
     }
 
     public JPanel setLoginPanel() //add name, password, submit and error message to a panel called loginpanel and returns this panel
@@ -121,11 +126,38 @@ public class LoginPage implements ActionListener {
         return this.mainPanel;
     }
 
+    public void run()
+    {
+        try{
+            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+        }catch (Exception e)
+        {
+            e.getCause();
+        }
+
+        frame.setSize(this.width,this.height);
+        frame.setLocationRelativeTo(null);
+        frame.setResizable(!resizable);
+       // mainPanel.setLayout(cardLayout); // making the main panel a cardlayout
+       // mainPanel.add("a",loginPage.setMainPanel()); // adding the LoginPage ko panel and registerPage ko panel here.
+       // mainPanel.add("b",registerPage.addAllPanels());
+        frame.add(setMainPanel());
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    }
+
     public JPasswordField getPasswordField() {
         return this.passwordField;
     }
 
     public void actionPerformed(ActionEvent e) {
+            if(e.getActionCommand().equals("register"))
+            {
+                frame.dispose();
+                RegisterPage registerPage = new RegisterPage();
+                registerPage.registerPageFrame();
+            }
+
 
         if (e.getActionCommand().equals("submit")) {
             try {
