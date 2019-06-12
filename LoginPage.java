@@ -55,7 +55,7 @@ public class LoginPage extends Thread implements ActionListener {
     public JPanel setLoginPanel() //add name, password, submit and error message to a panel called loginpanel and returns this panel
     {
         this.namePanel.setLayout(new FlowLayout());
-        this.nameField.setPreferredSize(new Dimension(30,25));
+        this.nameField.setPreferredSize(new Dimension(30,28));
         this.nameField.setActionCommand("name");
         this.nameField.addActionListener(new DataBaseConnect());
         this.namePanel.add(this.nameLabel);
@@ -128,12 +128,12 @@ public class LoginPage extends Thread implements ActionListener {
 
     public void run()
     {
-        try{
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        }catch (Exception e)
-        {
-            e.getCause();
-        }
+//        try{
+//            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+//        }catch (Exception e)
+//        {
+//            e.getCause();
+//        }
 
         frame.setSize(this.width,this.height);
         frame.setLocationRelativeTo(null);
@@ -154,8 +154,9 @@ public class LoginPage extends Thread implements ActionListener {
             if(e.getActionCommand().equals("register"))
             {
                 frame.dispose();
+
                 RegisterPage registerPage = new RegisterPage();
-                registerPage.registerPageFrame();
+                registerPage.start();
             }
 
 
