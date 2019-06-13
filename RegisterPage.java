@@ -4,8 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Arrays;
 
-public class RegisterPage extends Thread implements ActionListener {
+public class RegisterPage extends Thread implements ActionListener{
     private static final int width = 400;
     private static final int height = 600;
     private JLabel registerLabel;
@@ -120,30 +121,27 @@ public class RegisterPage extends Thread implements ActionListener {
         this.genderPanel.add(femaleButton);
         this.genderPanel.add(Box.createHorizontalStrut(38));
         this.genderPanel.add(otherButton);
-       // this.genderPanel.add(Box.createHorizontalStrut(40));
-
-
 
         this.passwordPanel.setLayout(new FlowLayout());
         passwordField.setPreferredSize(new Dimension(300,28));
         this.passwordPanel.add(this.passwordLabel);
         this.passwordPanel.add(this.passwordField);
         this.passwordField.setActionCommand("password");
-        this.passwordField.addActionListener(this);
+       // this.passwordField.addActionListener(this);
 
 
         this.verifyPasswordPanel.setLayout(new FlowLayout());
         verifyPassWordField.setPreferredSize(new Dimension(268,28));
         this.verifyPasswordPanel.add(this.verifyPasswordLabel);
         this.verifyPasswordPanel.add(this.verifyPassWordField);
-
+        this.verifyPassWordField.setActionCommand("verifyPassword");
+        verifyPassWordField.addActionListener(this);
         this.passwordVerifyErrorPanel.setLayout(new FlowLayout());
-        this.passwordErrorLabel.setText("");
-        this.passwordVerifyErrorPanel.add(this.passwordErrorLabel);
-        //This shows the error message hola idk
-
+        passwordVerifyErrorPanel.setVisible(false);
         this.buttonPanel.setLayout(new FlowLayout());
         this.buttonPanel.add(this.submitButton);
+        submitButton.addActionListener(this);
+        submitButton.setActionCommand("submit");
 
 
 
@@ -156,6 +154,7 @@ public class RegisterPage extends Thread implements ActionListener {
         this.mainPanel.add(genderPanel);
         this.mainPanel.add(passwordPanel);
         this.mainPanel.add(verifyPasswordPanel);
+        this.mainPanel.add(passwordVerifyErrorPanel);
         this.mainPanel.add(buttonPanel);
 
      //   this.mainPanel.add(setPasswordVerifyErrorPanel(""));
@@ -182,18 +181,31 @@ public class RegisterPage extends Thread implements ActionListener {
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         }
 
-
-
-    @Override
+        @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getActionCommand().equals("password"))
+        if(e.getActionCommand().equals("submit"))
         {
-            //setPasswordVerifyErrorPanel("Password Correct");
-            if(passwordField.equals(verifyPassWordField))
-            {
-                verifyPasswordPanel.setVisible(true);
-                passwordErrorLabel.setText("Password is correct");
-                if(e.getActionCommand().equals("name"))
+            if(Arrays.equals(passwordField.getPassword(), verifyPassWordField.getPassword())) {
+                passwordVerifyErrorPanel.setVisible(false);
+            }else{
+                Font font = new Font("quicksand", Font.PLAIN, 10);
+                passwordErrorLabel.setForeground(Color.RED);
+
+                passwordErrorLabel.setFont(font);
+                this.passwordErrorLabel.setText("*PASSWORD DOES NOT MATCH");
+                this.passwordVerifyErrorPanel.add(this.passwordErrorLabel);
+                passwordVerifyErrorPanel.setVisible(true);
+
+            }
+        }
+
+
+
+
+
+
+
+            if(e.getActionCommand().equals("name"))
                 {
 
 
@@ -208,15 +220,10 @@ public class RegisterPage extends Thread implements ActionListener {
 
                 }
             }
-            else
-            {
-                verifyPasswordPanel.setVisible(true);
-                passwordErrorLabel.setText("Password does not match");
-            }
+
         }
 
 
 
 
-    }
-}
+
