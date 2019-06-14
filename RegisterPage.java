@@ -189,19 +189,44 @@ public class RegisterPage extends Thread implements ActionListener{
     public void actionPerformed(ActionEvent e) {
         if(e.getActionCommand().equals("regSubmit"))
         {
+            String regUsername=null;
+            String regEmail=null;
+            String regGender=null;
+            char [] password=null;
+            boolean success=false;
             if(Arrays.equals(passwordField.getPassword(), verifyPassWordField.getPassword())) {
                 passwordVerifyErrorPanel.setVisible(false);
-                String regUsername = nameField.getText();
-                String regEmail =emailField.getText();
-                String regGender = buttonGroup.getSelection().getActionCommand();
-                char [] password = passwordField.getPassword();
-                ServerConnect serverConnect = new ServerConnect(regUsername,regEmail,regGender,password);
-                serverConnect.start();
+
+                try {
+                    regUsername = nameField.getText();
+                    regEmail = emailField.getText();
+                    regGender = buttonGroup.getSelection().getActionCommand();
+                    password = passwordField.getPassword();
+                    if(regUsername.equals("")||regEmail.equals("")||password.equals(""))
+                    {
+                        throw new Exception();
+                    }else {
+                        success = true;
+                    }
+                }catch (Exception err)
+                {
+                    JOptionPane.showMessageDialog(frame,"Please fill all fields","Error",JOptionPane.ERROR_MESSAGE);
+                }
+                if(success) {
+                    ServerConnect serverConnect = new ServerConnect("register", regUsername, regEmail, regGender, password);
+                    serverConnect.start();
+                    //true or false wale here
+                    //if true
+                    JOptionPane.showMessageDialog(frame, "Login Successful");
+
+                    frame.dispose();
+                    LoginPage loginPage = new LoginPage();
+                    loginPage.start();
+                }
 
             }else{
                 Font font = new Font("quicksand", Font.PLAIN, 10);
                 passwordErrorLabel.setForeground(Color.RED);
-
                 passwordErrorLabel.setFont(font);
                 this.passwordErrorLabel.setText("*PASSWORD DOES NOT MATCH");
                 this.passwordVerifyErrorPanel.add(this.passwordErrorLabel);
