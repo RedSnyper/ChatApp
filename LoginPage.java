@@ -26,9 +26,8 @@ public class LoginPage extends Thread implements ActionListener {
     private JPasswordField passwordField;
     private JPanel mainPanel;
     private JFrame frame;
-    //private JFrame jFrame;
 
-    public LoginPage(/*JFrame frame*/)
+    public LoginPage()
     {
         this.loginMessageLabel = new JLabel();
         this.loginPanel = new JPanel();
@@ -48,7 +47,6 @@ public class LoginPage extends Thread implements ActionListener {
         this.nameField = new JTextField(20);
         this.passwordField  = new JPasswordField(13);
         this.mainPanel = new JPanel();
-    //   this.frame = new JFrame();
         this.frame = new JFrame();
     }
 
@@ -68,13 +66,11 @@ public class LoginPage extends Thread implements ActionListener {
         this.passwordPanel.add(this.passwordLabel);
         this.passwordPanel.add(this.passwordField);
 
-
         this.submitButton.setActionCommand("submit");
         this.submitButton.addActionListener(this);
         this.submitPanel.add(this.submitButton);
 
         this.errorPanel.add(this.errorMessage); // just to show error message
-
 
         this.loginPanel.setLayout(new BoxLayout(this.loginPanel,BoxLayout.Y_AXIS));
         this.loginPanel.add(Box.createVerticalStrut(70));
@@ -111,7 +107,6 @@ public class LoginPage extends Thread implements ActionListener {
         this.registerPanel.add(this.registerLabel);
         this.registerPanel.add(Box.createVerticalStrut(30));
         this.registerPanel.add(this.registerButton);
-
         return this.registerPanel;
     }
 
@@ -122,25 +117,14 @@ public class LoginPage extends Thread implements ActionListener {
     {
         this.mainPanel.add(setLoginPanel(),BorderLayout.NORTH);
         this.mainPanel.add(setRegisterPanel(),BorderLayout.SOUTH);
-
         return this.mainPanel;
     }
 
     public void run()
     {
-//        try{
-//            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-//        }catch (Exception e)
-//        {
-//            e.getCause();
-//        }
-
         frame.setSize(this.width,this.height);
         frame.setLocationRelativeTo(null);
         frame.setResizable(!resizable);
-       // mainPanel.setLayout(cardLayout); // making the main panel a cardlayout
-       // mainPanel.add("a",loginPage.setMainPanel()); // adding the LoginPage ko panel and registerPage ko panel here.
-       // mainPanel.add("b",registerPage.addAllPanels());
         frame.add(setMainPanel());
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -154,7 +138,6 @@ public class LoginPage extends Thread implements ActionListener {
             if(e.getActionCommand().equals("register"))
             {
                 frame.dispose();
-
                 RegisterPage registerPage = new RegisterPage();
                 registerPage.start();
             }
@@ -162,6 +145,7 @@ public class LoginPage extends Thread implements ActionListener {
 
         if (e.getActionCommand().equals("submit")) {
             try {
+
                 // Check the login details to data stored in database if not exist show / throw error in catch panel
             } catch(Exception exc){
                 // show the error in error panel.
