@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.util.Arrays;
 
 public class RegisterPage extends Thread implements ActionListener{
@@ -89,15 +91,15 @@ public class RegisterPage extends Thread implements ActionListener{
         //this.namePanel.add(Box.createVerticalStrut(100));
         //this.namePanel.add(Box.createHorizontalStrut(-20));
         this.nameField.setPreferredSize(new Dimension(300,28));
-        this.nameField.setActionCommand("username");
         this.nameField.addActionListener(this);
+        this.nameField.setActionCommand("regUsername");
         this.namePanel.add(this.nameLabel);
         this.namePanel.add(this.nameField);
 
 
         this.mailPanel.setLayout(new FlowLayout());
         this.emailField.setPreferredSize(new Dimension(300,28));
-        this.emailField.setActionCommand("email");
+        this.emailField.setActionCommand("regEmail");
         this.emailField.addActionListener(this);
         this.mailPanel.add(emailLabel);
         this.mailPanel.add(emailField);
@@ -126,7 +128,7 @@ public class RegisterPage extends Thread implements ActionListener{
         passwordField.setPreferredSize(new Dimension(300,28));
         this.passwordPanel.add(this.passwordLabel);
         this.passwordPanel.add(this.passwordField);
-        this.passwordField.setActionCommand("password");
+        this.passwordField.setActionCommand("regPassword");
        // this.passwordField.addActionListener(this);
 
 
@@ -141,7 +143,7 @@ public class RegisterPage extends Thread implements ActionListener{
         this.buttonPanel.setLayout(new FlowLayout());
         this.buttonPanel.add(this.submitButton);
         submitButton.addActionListener(this);
-        submitButton.setActionCommand("submit");
+        submitButton.setActionCommand("regSubmit");
 
 
 
@@ -170,6 +172,8 @@ public class RegisterPage extends Thread implements ActionListener{
         registerPageFrame();
     }
 
+
+
         public void registerPageFrame()
         {
 
@@ -183,10 +187,17 @@ public class RegisterPage extends Thread implements ActionListener{
 
         @Override
     public void actionPerformed(ActionEvent e) {
-        if(e.getActionCommand().equals("submit"))
+        if(e.getActionCommand().equals("regSubmit"))
         {
             if(Arrays.equals(passwordField.getPassword(), verifyPassWordField.getPassword())) {
                 passwordVerifyErrorPanel.setVisible(false);
+                String regUsername = nameField.getText();
+                String regEmail =emailField.getText();
+                String regGender = buttonGroup.getSelection().getActionCommand();
+                char [] password = passwordField.getPassword();
+                ServerConnect serverConnect = new ServerConnect(regUsername,regEmail,regGender,password);
+                serverConnect.start();
+
             }else{
                 Font font = new Font("quicksand", Font.PLAIN, 10);
                 passwordErrorLabel.setForeground(Color.RED);

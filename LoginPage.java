@@ -63,14 +63,14 @@ public class LoginPage extends Thread implements ActionListener {
 
         this.passwordPanel.setLayout(new FlowLayout());
         this.passwordLabel.setText("Password:");
-        this.passwordField.setActionCommand("password");
-        this.passwordField.addActionListener(new DataBaseConnect());
+        this.passwordField.setActionCommand("loginPassword");
+        this.passwordField.addActionListener(this);
         this.passwordPanel.add(this.passwordLabel);
         this.passwordPanel.add(this.passwordField);
 
 
         this.submitButton.setActionCommand("submit");
-        this.submitButton.addActionListener(new ServerConnect());
+        this.submitButton.addActionListener(this);
         this.submitPanel.add(this.submitButton);
 
         this.errorPanel.add(this.errorMessage); // just to show error message
