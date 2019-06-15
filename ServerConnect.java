@@ -3,9 +3,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.net.Socket;
 
-public class ServerConnect extends Thread implements ActionListener {
+public class ServerConnect extends Thread implements ActionListener, Serializable {
 
     private String loginType; //either register or login
     private String userName;
@@ -32,6 +33,35 @@ public class ServerConnect extends Thread implements ActionListener {
         this.loginEmailAddress = loginEmailAddress;
         this.loginPassword = loginPassword;
     }
+
+    public String getLoginType() {
+        return loginType;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getRegEmailAddress() {
+        return regEmailAddress;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public char[] getPassword() {
+        return password;
+    }
+
+    public String getLoginEmailAddress() {
+        return loginEmailAddress;
+    }
+
+    public char[] getLoginPassword() {
+        return loginPassword;
+    }
+
     public void run()
     {
         System.out.println(userName);
@@ -50,8 +80,6 @@ public class ServerConnect extends Thread implements ActionListener {
         {
             System.out.println();
         }
-
-
     }
 
     @Override
