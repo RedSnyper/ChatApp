@@ -4,8 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusEvent;
-import java.awt.event.FocusListener;
 import java.util.Arrays;
 
 public class RegisterPage extends Thread implements ActionListener{
@@ -28,7 +26,6 @@ public class RegisterPage extends Thread implements ActionListener{
     private JRadioButton femaleButton;
     private JRadioButton otherButton;
     private ButtonGroup buttonGroup;
-
 
     private JTextField usernameTextfield;
     private JPanel passwordPanel;
@@ -86,16 +83,12 @@ public class RegisterPage extends Thread implements ActionListener{
         this.registerLabel.setText("Register");
         this.registerPanel.add(registerLabel);
 
-
         this.namePanel.setLayout(new FlowLayout());
-        //this.namePanel.add(Box.createVerticalStrut(100));
-        //this.namePanel.add(Box.createHorizontalStrut(-20));
         this.nameField.setPreferredSize(new Dimension(300,28));
         this.nameField.addActionListener(this);
         this.nameField.setActionCommand("regUsername");
         this.namePanel.add(this.nameLabel);
         this.namePanel.add(this.nameField);
-
 
         this.mailPanel.setLayout(new FlowLayout());
         this.emailField.setPreferredSize(new Dimension(300,28));
@@ -105,7 +98,6 @@ public class RegisterPage extends Thread implements ActionListener{
         this.mailPanel.add(emailField);
 
         this.genderPanel.setLayout(new FlowLayout());
-
         this.buttonGroup.add(maleButton);
         this.buttonGroup.add(femaleButton);
         this.buttonGroup.add(otherButton);
@@ -115,7 +107,6 @@ public class RegisterPage extends Thread implements ActionListener{
         this.femaleButton.setActionCommand(femaleButton.getText());
         this.otherButton.addActionListener(this);
         this.otherButton.setActionCommand(otherButton.getText());
-
         this.genderPanel.add(genderLabel);
         this.genderPanel.add(Box.createHorizontalStrut(50));
         this.genderPanel.add(maleButton);
@@ -129,8 +120,6 @@ public class RegisterPage extends Thread implements ActionListener{
         this.passwordPanel.add(this.passwordLabel);
         this.passwordPanel.add(this.passwordField);
         this.passwordField.setActionCommand("regPassword");
-       // this.passwordField.addActionListener(this);
-
 
         this.verifyPasswordPanel.setLayout(new FlowLayout());
         verifyPassWordField.setPreferredSize(new Dimension(268,28));
@@ -145,10 +134,7 @@ public class RegisterPage extends Thread implements ActionListener{
         submitButton.addActionListener(this);
         submitButton.setActionCommand("regSubmit");
 
-
-
         this.mainPanel.setLayout(new BoxLayout(mainPanel,BoxLayout.Y_AXIS));
-
         this.mainPanel.add(registerPanel);
         this.mainPanel.add(Box.createVerticalStrut(40));
         this.mainPanel.add(namePanel);
@@ -159,32 +145,22 @@ public class RegisterPage extends Thread implements ActionListener{
         this.mainPanel.add(passwordVerifyErrorPanel);
         this.mainPanel.add(buttonPanel);
 
-     //   this.mainPanel.add(setPasswordVerifyErrorPanel(""));
-        //this.verifyPasswordPanel.setVisible(false);
-        //this.mainPanel.add(this.verifyPasswordPanel);
-       // this.mainPanel.add(setButtonPanel());
         return mainPanel;
     }
     @Override
     public void run() {
-
-
         registerPageFrame();
     }
 
-
-
-        public void registerPageFrame()
-        {
-
-            frame.setResizable(false);
-            frame.setSize(width, height);
-            frame.add(registerFrame());
-            frame.setLocationRelativeTo(null);
-            frame.setVisible(true);
-            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    public void registerPageFrame()
+    {
+        frame.setResizable(false);
+        frame.setSize(width, height);
+        frame.add(registerFrame());
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         }
-
         @Override
     public void actionPerformed(ActionEvent e) {
         if(e.getActionCommand().equals("regSubmit"))
@@ -192,19 +168,18 @@ public class RegisterPage extends Thread implements ActionListener{
             String regUsername=null;
             String regEmail=null;
             String regGender=null;
-            char [] password=null;
+            char [] password =null;
             boolean success=false;
             if(Arrays.equals(passwordField.getPassword(), verifyPassWordField.getPassword())) {
                 passwordVerifyErrorPanel.setVisible(false);
-
                 try {
                     regUsername = nameField.getText();
                     regEmail = emailField.getText();
                     regGender = buttonGroup.getSelection().getActionCommand();
                     password = passwordField.getPassword();
-                    if(regUsername.equals("")||regEmail.equals("")||password.equals(""))
+                    if(regUsername.equals("")||regEmail.equals("")||password.length==0)
                     {
-                        throw new Exception();
+                      throw new Exception();
                     }else {
                         success = true;
                     }
@@ -234,14 +209,7 @@ public class RegisterPage extends Thread implements ActionListener{
 
             }
         }
-
-
-
-
-
-
-
-            if(e.getActionCommand().equals("name"))
+        if(e.getActionCommand().equals("name"))
                 {
 
 
