@@ -7,14 +7,17 @@ public class LoginPage extends Thread implements ActionListener {
     private static final int width = 400;
     private static final int height = 600;
     private  boolean resizable = true;
+
+
     private JLabel loginMessageLabel;
+    private JPanel loginDisplayPanel;
     private JPanel loginPanel;
     private JPanel namePanel;
     private JPanel passwordPanel;
     private JPanel submitPanel;
     private JButton submitButton;
     private JPanel errorPanel;
-    private JLabel errorMessage;
+    private JLabel errorLabel;
     private JPanel registerPanel;
     private JLabel registerLabel;
     private JPanel registerLabelPanel;
@@ -30,12 +33,13 @@ public class LoginPage extends Thread implements ActionListener {
     public LoginPage()
     {
         this.loginMessageLabel = new JLabel();
+        this.loginDisplayPanel= new JPanel();
         this.loginPanel = new JPanel();
         this.namePanel = new JPanel();
         this.passwordPanel = new JPanel();
         this.submitPanel = new JPanel();
         this.submitButton = new JButton("Submit");
-        this.errorMessage = new JLabel();
+        this.errorLabel = new JLabel();
         this.errorPanel = new JPanel();
         this.registerPanel = new JPanel();
         this.registerLabel = new JLabel();
@@ -47,7 +51,7 @@ public class LoginPage extends Thread implements ActionListener {
         this.nameField = new JTextField(20);
         this.passwordField  = new JPasswordField(13);
         this.mainPanel = new JPanel();
-        this.frame = new JFrame();
+        this.frame = new JFrame("Login");
     }
 
     public JPanel setLoginPanel() //add name, password, submit and error message to a panel called loginpanel and returns this panel
@@ -55,7 +59,7 @@ public class LoginPage extends Thread implements ActionListener {
         this.namePanel.setLayout(new FlowLayout());
         this.nameField.setPreferredSize(new Dimension(30,28));
         this.nameField.setActionCommand("name");
-        this.nameField.addActionListener(new DataBaseConnect());
+        this.nameField.addActionListener(this);
         this.namePanel.add(this.nameLabel);
         this.namePanel.add(this.nameField);
 
@@ -70,13 +74,14 @@ public class LoginPage extends Thread implements ActionListener {
         this.submitButton.addActionListener(this);
         this.submitPanel.add(this.submitButton);
 
-        this.errorPanel.add(this.errorMessage); // just to show error message
+        this.errorPanel.add(this.errorLabel); // just to show error message
 
         this.loginPanel.setLayout(new BoxLayout(this.loginPanel,BoxLayout.Y_AXIS));
         this.loginPanel.add(Box.createVerticalStrut(70));
         this.loginMessageLabel.setFont(new Font("", Font.BOLD,30));
         this.loginMessageLabel.setText("LOGIN");
-        this.loginPanel.add(this.loginMessageLabel);
+        this.loginDisplayPanel.add(this.loginMessageLabel);
+        this.loginPanel.add(loginDisplayPanel);
         this.loginPanel.add(this.namePanel);
         this.loginPanel.add(Box.createVerticalStrut(20));
         this.loginPanel.add(this.passwordPanel);
@@ -84,6 +89,7 @@ public class LoginPage extends Thread implements ActionListener {
         this.loginPanel.add(this.submitPanel);
         this.loginPanel.add(Box.createVerticalStrut(20));
         this.loginPanel.add(this.errorPanel);
+        this.errorPanel.setVisible(false);
         return this.loginPanel;
     }
 
@@ -129,11 +135,6 @@ public class LoginPage extends Thread implements ActionListener {
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
-
-    public JPasswordField getPasswordField() {
-        return this.passwordField;
-    }
-
     public void actionPerformed(ActionEvent e) {
             if(e.getActionCommand().equals("register"))
             {
@@ -141,14 +142,36 @@ public class LoginPage extends Thread implements ActionListener {
                 RegisterPage registerPage = new RegisterPage();
                 registerPage.start();
             }
-
-
-        if (e.getActionCommand().equals("submit")) {
+            if (e.getActionCommand().equals("submit")) {
             try {
+                ServerConnect serverConnect = new ServerConnect("login",nameField.getText(),passwordField.getPassword());
+                serverConnect.start();
+                Thread.sleep(500);
+                if(serverConnect.isConnected()){
+                if(serverConnect.isCanLogin())
+                {
+                    JOptionPane.showMessageDialog(frame,"Login Successful","Success", JOptionPane.INFORMATION_MESSAGE);
 
-                // Check the login details to data stored in database if not exist show / throw error in catch panel
-            } catch(Exception exc){
-                // show the error in error panel.
+                    /*
+                    ----------------------------------------------------------------------------------
+                        Kill the current thread and now make a new ChatApp frame and start its thread
+                    ----------------------------------------------------------------------------------
+                    */
+
+
+                }else {
+                    Font font = new Font("", Font.PLAIN, 10);
+                    errorLabel.setForeground(Color.RED);
+                    errorLabel.setFont(font);
+                    errorLabel.setText("*Email or password does not match");
+                    errorPanel.add(errorLabel);
+                    errorPanel.setVisible(true);
+                    }
+                } else{
+                    JOptionPane.showMessageDialog(frame,"Server Offline", "Error",JOptionPane.ERROR_MESSAGE);
+                }
+            }catch(Exception exc){
+                JOptionPane.showMessageDialog(frame, "Cannot connect to server", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
