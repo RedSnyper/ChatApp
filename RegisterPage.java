@@ -4,8 +4,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.net.ConnectException;
 import java.util.Arrays;
 
 public class RegisterPage extends Thread implements ActionListener {
@@ -16,6 +14,7 @@ public class RegisterPage extends Thread implements ActionListener {
     private String regUsername;
     private char[] password;
     private String regGender;
+    private boolean emailSame;
 
     private JLabel registerLabel;
     private JPanel registerPanel;
@@ -208,28 +207,34 @@ public class RegisterPage extends Thread implements ActionListener {
                 }
                 if (success) {
                     ServerConnect serverConnect = new ServerConnect("register", regUsername, regEmail, regGender, password);
-                    System.out.println(serverConnect.getLoginType());
-                    System.out.println("here");
-                     try {
+                    try {
                          {
                              serverConnect.start();
                          }
-                         Thread.sleep(1000); // to delay the main thread to get the isRegistered result
+                         Thread.sleep(500); // to delay the main thread to get the isRegistered result
 
-                        if (serverConnect.isRegistered()) {
+                        if (serverConnect.isRegistered() && !serverConnect.isSameEmail()) {
+
+                            emailSame = false;
                             JOptionPane.showMessageDialog(frame, "Register Successful");
                             frame.dispose();
                             LoginPage loginPage = new LoginPage();
                             loginPage.start();
                         } else {
-                            JOptionPane.showMessageDialog(frame, "Cannot Register. Server Is Offline", "Error", JOptionPane.ERROR_MESSAGE);
-                        }
+                            if(serverConnect.isSameEmail())
+                            {
+                                JOptionPane.showMessageDialog(frame,"Email Already Taken", "Error",JOptionPane.ERROR_MESSAGE);
+                            }
+                            else if(!serverConnect.isRegistered()) {
+                                JOptionPane.showMessageDialog(frame, "Cannot Register. Server Is Offline", "Error", JOptionPane.ERROR_MESSAGE);
+                            }
+                            }
                     } catch (Exception err) {
                         System.out.println(err.getMessage());
                     }
                 }
             } else{
-                Font font = new Font("quicksand", Font.PLAIN, 10);
+                Font font = new Font("", Font.PLAIN, 10);
                 if (!isValid(regEmail)) {
                     mailCheckLabel.setForeground(Color.RED);
                     mailCheckLabel.setFont(font);
