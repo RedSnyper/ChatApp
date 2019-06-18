@@ -208,8 +208,14 @@ public class RegisterPage extends Thread implements ActionListener {
                 }
                 if (success) {
                     ServerConnect serverConnect = new ServerConnect("register", regUsername, regEmail, regGender, password);
-                    try {
-                        serverConnect.start();
+                    System.out.println(serverConnect.getLoginType());
+                    System.out.println("here");
+                     try {
+                         {
+                             serverConnect.start();
+                         }
+                         Thread.sleep(1000); // to delay the main thread to get the isRegistered result
+
                         if (serverConnect.isRegistered()) {
                             JOptionPane.showMessageDialog(frame, "Register Successful");
                             frame.dispose();
