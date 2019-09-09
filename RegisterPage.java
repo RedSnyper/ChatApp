@@ -208,10 +208,10 @@ public class RegisterPage extends Thread implements ActionListener {
                 if (success) {
                     ServerConnect serverConnect = new ServerConnect("register", regUsername, regEmail, regGender, password);
                     try {
-                         {
-                             serverConnect.start();
-                         }
-                         Thread.sleep(500); // to delay the main thread to get the isRegistered result
+                        {
+                            serverConnect.start();
+                        }
+                        Thread.sleep(500); // to delay the main thread to get the isRegistered result
 
                         if (serverConnect.isRegistered() && !serverConnect.isSameEmail()) {
 
@@ -228,7 +228,7 @@ public class RegisterPage extends Thread implements ActionListener {
                             else if(!serverConnect.isRegistered()) {
                                 JOptionPane.showMessageDialog(frame, "Cannot Register. Server Is Offline", "Error", JOptionPane.ERROR_MESSAGE);
                             }
-                            }
+                        }
                     } catch (Exception err) {
                         System.out.println(err.getMessage());
                     }
@@ -257,8 +257,3 @@ public class RegisterPage extends Thread implements ActionListener {
         }
     }
 }
-
-
-
-
-

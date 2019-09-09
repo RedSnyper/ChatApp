@@ -8,7 +8,7 @@ public class LoginPage extends Thread implements ActionListener {
     private static final int height = 600;
     private  boolean resizable = true;
 
-
+    private String userEmail;
     private JLabel loginMessageLabel;
     private JPanel loginDisplayPanel;
     private JPanel loginPanel;
@@ -135,37 +135,50 @@ public class LoginPage extends Thread implements ActionListener {
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
+
+    public String getNameField() {
+        return this.userEmail;
+    }
+
     public void actionPerformed(ActionEvent e) {
-            if(e.getActionCommand().equals("register"))
-            {
-                frame.dispose();
-                RegisterPage registerPage = new RegisterPage();
-                registerPage.start();
-            }
-            if (e.getActionCommand().equals("submit")) {
+        if(e.getActionCommand().equals("register"))
+        {
+            frame.dispose();
+            RegisterPage registerPage = new RegisterPage();
+            registerPage.start();
+        }
+        if (e.getActionCommand().equals("submit")) {
             try {
                 ServerConnect serverConnect = new ServerConnect("login",nameField.getText(),passwordField.getPassword());
                 serverConnect.start();
-                Thread.sleep(500);
+                Thread.sleep(1000);
                 if(serverConnect.isConnected()){
-                if(serverConnect.isCanLogin())
-                {
-                    JOptionPane.showMessageDialog(frame,"Login Successful","Success", JOptionPane.INFORMATION_MESSAGE);
+                    if(serverConnect.isCanLogin())
+                    {
+
+                        JOptionPane.showMessageDialog(frame,"Login Successful","Success", JOptionPane.INFORMATION_MESSAGE);
 
                     /*
                     ----------------------------------------------------------------------------------
                         Kill the current thread and now make a new ChatApp frame and start its thread
                     ----------------------------------------------------------------------------------
                     */
+                        frame.dispose();
+                        this.userEmail = nameField.getText();
+                        System.out.println(this.userEmail);
+                        ChatFrame chatFrame = new ChatFrame();
+                        chatFrame.setUserName(userEmail);
+
+                        chatFrame.start();
 
 
-                }else {
-                    Font font = new Font("", Font.PLAIN, 10);
-                    errorLabel.setForeground(Color.RED);
-                    errorLabel.setFont(font);
-                    errorLabel.setText("*Email or password does not match");
-                    errorPanel.add(errorLabel);
-                    errorPanel.setVisible(true);
+                    }else {
+                        Font font = new Font("", Font.PLAIN, 10);
+                        errorLabel.setForeground(Color.RED);
+                        errorLabel.setFont(font);
+                        errorLabel.setText("*Email or password does not match");
+                        errorPanel.add(errorLabel);
+                        errorPanel.setVisible(true);
                     }
                 } else{
                     JOptionPane.showMessageDialog(frame,"Server Offline", "Error",JOptionPane.ERROR_MESSAGE);
@@ -176,4 +189,3 @@ public class LoginPage extends Thread implements ActionListener {
         }
     }
 }
-
