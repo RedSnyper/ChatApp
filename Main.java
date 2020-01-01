@@ -1,6 +1,6 @@
 import javax.swing.*;
 
-public class Main {
+public class Main extends Thread{
     public static void main(String[] args) {
         try{
             UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
@@ -9,6 +9,7 @@ public class Main {
             e.getCause();
         }
         LoginPage loginPage = new LoginPage();
-        loginPage.start();
+        Thread loginThread = new Thread(loginPage);
+        loginThread.start();
     }
 }

@@ -187,9 +187,10 @@ public class RegisterPage extends Thread implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        boolean success =false;
         if (e.getActionCommand().equals("regSubmit")) {
             this.regEmail = emailField.getText();
-            boolean success = false;
+
             if ((Arrays.equals(passwordField.getPassword(), verifyPassWordField.getPassword())) && isValid(regEmail)) {
                 passwordVerifyErrorPanel.setVisible(false);
                 mailCheckPanel.setVisible(false);
@@ -206,12 +207,14 @@ public class RegisterPage extends Thread implements ActionListener {
                     JOptionPane.showMessageDialog(frame, "Please fill all fields", "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 if (success) {
+
                     ServerConnect serverConnect = new ServerConnect("register", regUsername, regEmail, regGender, password);
                     try {
                         {
+                            Thread serverConnectThread = new Thread(serverConnect);
                             serverConnect.start();
                         }
-                        Thread.sleep(500); // to delay the main thread to get the isRegistered result
+                        Thread.sleep(600); // to delay the main thread to get the isRegistered result
 
                         if (serverConnect.isRegistered() && !serverConnect.isSameEmail()) {
 
@@ -220,6 +223,7 @@ public class RegisterPage extends Thread implements ActionListener {
                             frame.dispose();
                             LoginPage loginPage = new LoginPage();
                             loginPage.start();
+
                         } else {
                             if(serverConnect.isSameEmail())
                             {

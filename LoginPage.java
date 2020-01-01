@@ -144,8 +144,10 @@ public class LoginPage extends Thread implements ActionListener {
         if(e.getActionCommand().equals("register"))
         {
             frame.dispose();
+            Thread.currentThread().interrupt();
             RegisterPage registerPage = new RegisterPage();
-            registerPage.start();
+            Thread registerThread = new Thread(registerPage);
+            registerThread.start();
         }
         if (e.getActionCommand().equals("submit")) {
             try {
@@ -167,7 +169,7 @@ public class LoginPage extends Thread implements ActionListener {
                         this.userEmail = nameField.getText();
                         System.out.println(this.userEmail);
                         ChatFrame chatFrame = new ChatFrame();
-                        chatFrame.setUserName(userEmail);
+                        //chatFrame.setUserName(userEmail);
 
                         chatFrame.start();
 

@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.util.ArrayList;
 
 public class ChatFrame extends Thread {
 
@@ -10,6 +11,9 @@ public class ChatFrame extends Thread {
     private ServerConnect serverConnect;
     private LoginPage loginPage;
     private String userEmail;
+    private ArrayList<JButton> onlineUserButton;
+    private ArrayList onlineUser;
+
 
 public ChatFrame()
 {
@@ -19,8 +23,9 @@ public ChatFrame()
     this.statusLabel = new JLabel();
     this.userNamePanel = new JPanel();
     this.loginPage = new LoginPage();
-    this.serverConnect = new ServerConnect("userName",loginPage.getNameField());
-
+    //this.serverConnect = new ServerConnect("online",loginPage.getNameField(),1);
+    this.onlineUserButton = new ArrayList<>();
+    this.onlineUser = new ArrayList();
 }
 
 public void addInFrame()
