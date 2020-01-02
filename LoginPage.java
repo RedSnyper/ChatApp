@@ -8,6 +8,11 @@ public class LoginPage implements ActionListener {
     private static final int height = 600;
     private  boolean resizable = true;
 
+    public static String getEmail() {
+        return email;
+    }
+
+    private static  String email;
     private String userEmail;
     private JLabel loginMessageLabel;
     private JPanel loginDisplayPanel;
@@ -144,21 +149,18 @@ public class LoginPage implements ActionListener {
         if(e.getActionCommand().equals("register"))
         {
             frame.dispose();
-           // Thread.currentThread().interrupt();
             RegisterPage registerPage = new RegisterPage();
             registerPage.start();
-           // Thread registerThread = new Thread(registerPage);
-           // registerThread.start();
+
         }
         if (e.getActionCommand().equals("submit")) {
             try {
+                this.email = nameField.getText();
                 ServerConnect serverConnect = new ServerConnect("login",nameField.getText(),passwordField.getPassword());
                 serverConnect.run();
-               // Thread.sleep(1000);
                 if(serverConnect.isConnected()){
                     if(serverConnect.isCanLogin())
                     {
-
                         JOptionPane.showMessageDialog(frame,"Login Successful","Success", JOptionPane.INFORMATION_MESSAGE);
 
                     /*
@@ -167,7 +169,7 @@ public class LoginPage implements ActionListener {
                     ----------------------------------------------------------------------------------
                     */
                         frame.dispose();
-                        this.userEmail = nameField.getText();
+
                         System.out.println(this.userEmail);
                         ChatFrame chatFrame = new ChatFrame();
                         chatFrame.run();
@@ -185,6 +187,7 @@ public class LoginPage implements ActionListener {
                     JOptionPane.showMessageDialog(frame,"Server Offline", "Error",JOptionPane.ERROR_MESSAGE);
                 }
             }catch(Exception exc){
+                exc.printStackTrace();
                 JOptionPane.showMessageDialog(frame, "Cannot connect to server", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }

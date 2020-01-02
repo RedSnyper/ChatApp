@@ -23,9 +23,12 @@ public class ServerConnect implements Serializable {
     private boolean canLogin;
     private boolean isConnected;
     private boolean sameEmail;
-    private int onlineStatus=0;
-    private MultithreadServer multithreadServer;
+    private int onlineStatus;
+   // private MultithreadServer multithreadServer;
     private final int socketPort=6000;
+    private HashMap<Integer,String> readHashMap;
+
+
     private ObjectOutputStream objectOutputStream = null;
     private ObjectInputStream objectInputStream = null;
     private BufferedReader reader = null;
@@ -45,6 +48,12 @@ public class ServerConnect implements Serializable {
     public boolean isRegistered() {
         return isRegistered;
     }
+
+
+    public HashMap<Integer, String> getReadHashMap() {
+        return readHashMap;
+    }
+
 
     public ServerConnect(String loginType,String userName, String email, String gender, char[] password) // for register purpose
     {
@@ -110,7 +119,8 @@ public class ServerConnect implements Serializable {
         try {
             socket = new Socket("localhost", socketPort);
             objectOutputStream = new ObjectOutputStream(socket.getOutputStream());
-            //objectInputStream = new ObjectInputStream((socket.getInputStream()));
+          //  inputStream = socket.getInputStream();
+
             reader = new BufferedReader(new InputStreamReader(socket.getInputStream(),"US-ASCII"));
             writer = new PrintWriter(socket.getOutputStream(), true);
 
@@ -137,25 +147,34 @@ public class ServerConnect implements Serializable {
                         if (message.charAt(4)=='f') {
                             this.canLogin = true;
 
+                        }else
+                        {
+                            this.canLogin=false;
                         }
 
                 } else if (getLoginType().equals("online")) {
                     System.out.println("yo third");
-                    onlineStatus = 1;
+
                     objectOutputStream.writeObject(new ServerConnect(loginType, loginEmailAddress, onlineStatus));
+
                     System.out.println(loginEmailAddress);
                     if (socket == null) {
                         onlineStatus = 0;
+                        System.out.println("Server null ? ");
                         objectOutputStream.writeObject(new ServerConnect("offline", loginEmailAddress, onlineStatus));
                     }
                     try {
-                        HashMap<Integer,String> re = new HashMap<>();
-                        multithreadServer = (MultithreadServer) objectInputStream.readObject();
-                       re = multithreadServer.getRecords();
-                        System.out.println(Arrays.asList(multithreadServer.getRecords()));
 
-                    } catch (ClassNotFoundException e) {
-                        System.out.println(e.getMessage());
+                        objectInputStream = new ObjectInputStream((socket.getInputStream()));
+                        readHashMap = (HashMap) objectInputStream.readObject();
+                        ChatFrame chatFrame = new ChatFrame();
+                        System.out.println(Arrays.asList(readHashMap));
+                        chatFrame.setOnlineUserHashMap(readHashMap);
+                        objectOutputStream.flush();
+//                    } catch (ClassNotFoundException e) {
+//                        System.out.println(e.getMessage());
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             }catch(ConnectException e)
