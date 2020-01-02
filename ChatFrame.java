@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.util.ArrayList;
 
-public class ChatFrame extends Thread {
+public class ChatFrame {
 
     private JFrame frame;
     private JLabel userNameLabel;
@@ -23,7 +23,7 @@ public ChatFrame()
     this.statusLabel = new JLabel();
     this.userNamePanel = new JPanel();
     this.loginPage = new LoginPage();
-    //this.serverConnect = new ServerConnect("online",loginPage.getNameField(),1);
+    this.serverConnect = new ServerConnect("online",loginPage.getNameField(),1);
     this.onlineUserButton = new ArrayList<>();
     this.onlineUser = new ArrayList();
 }
@@ -45,10 +45,7 @@ public void setUserName(String email)
 public void run()
 {
     addInFrame();
-    System.out.println("Run");
-    System.out.println(userEmail);
-    serverConnect.setLoginEmail(userEmail);
-    serverConnect.start();
+    serverConnect.run();
 
 
 

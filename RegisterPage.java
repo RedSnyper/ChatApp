@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
 
-public class RegisterPage extends Thread implements ActionListener {
+public class RegisterPage implements ActionListener {
     private static final int width = 400;
     private static final int height = 600;
 
@@ -171,8 +171,7 @@ public class RegisterPage extends Thread implements ActionListener {
         return email.matches(regex);
     }
 
-    @Override
-    public void run() {
+    public void start() {
         registerPageFrame();
     }
 
@@ -207,22 +206,19 @@ public class RegisterPage extends Thread implements ActionListener {
                     JOptionPane.showMessageDialog(frame, "Please fill all fields", "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 if (success) {
+                    System.out.println("works till here");
 
                     ServerConnect serverConnect = new ServerConnect("register", regUsername, regEmail, regGender, password);
                     try {
-                        {
-                            Thread serverConnectThread = new Thread(serverConnect);
-                            serverConnect.start();
-                        }
-                        Thread.sleep(600); // to delay the main thread to get the isRegistered result
 
-                        if (serverConnect.isRegistered() && !serverConnect.isSameEmail()) {
+                            serverConnect.run();
+                            if (serverConnect.isRegistered() && !serverConnect.isSameEmail()) {
 
                             emailSame = false;
                             JOptionPane.showMessageDialog(frame, "Register Successful");
                             frame.dispose();
                             LoginPage loginPage = new LoginPage();
-                            loginPage.start();
+                            loginPage.run();
 
                         } else {
                             if(serverConnect.isSameEmail())

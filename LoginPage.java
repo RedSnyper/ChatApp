@@ -3,7 +3,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class LoginPage extends Thread implements ActionListener {
+public class LoginPage implements ActionListener {
     private static final int width = 400;
     private static final int height = 600;
     private  boolean resizable = true;
@@ -144,16 +144,17 @@ public class LoginPage extends Thread implements ActionListener {
         if(e.getActionCommand().equals("register"))
         {
             frame.dispose();
-            Thread.currentThread().interrupt();
+           // Thread.currentThread().interrupt();
             RegisterPage registerPage = new RegisterPage();
-            Thread registerThread = new Thread(registerPage);
-            registerThread.start();
+            registerPage.start();
+           // Thread registerThread = new Thread(registerPage);
+           // registerThread.start();
         }
         if (e.getActionCommand().equals("submit")) {
             try {
                 ServerConnect serverConnect = new ServerConnect("login",nameField.getText(),passwordField.getPassword());
-                serverConnect.start();
-                Thread.sleep(1000);
+                serverConnect.run();
+               // Thread.sleep(1000);
                 if(serverConnect.isConnected()){
                     if(serverConnect.isCanLogin())
                     {
@@ -169,9 +170,7 @@ public class LoginPage extends Thread implements ActionListener {
                         this.userEmail = nameField.getText();
                         System.out.println(this.userEmail);
                         ChatFrame chatFrame = new ChatFrame();
-                        //chatFrame.setUserName(userEmail);
-
-                        chatFrame.start();
+                        chatFrame.run();
 
 
                     }else {

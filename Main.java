@@ -9,7 +9,8 @@ public class Main extends Thread{
             e.getCause();
         }
         LoginPage loginPage = new LoginPage();
-        Thread loginThread = new Thread(loginPage);
-        loginThread.start();
+        loginPage.run();
+      //  Thread loginThread = new Thread(loginPage);
+       // loginThread.start();
     }
 }
