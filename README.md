@@ -18,4 +18,4 @@ Main.java -> **has the main function.**
 ServerConnect.java -> This class is responsible for connecting to server and sending and receiving texts/objects to and fro the server.
 **Uses Serializable interface for sending objects.** 
 ## Imp Note
-**The module of serverConnect is added as an external library in Server side** 
+**The module of serverConnect is added as an external library in ChatServer project** 
