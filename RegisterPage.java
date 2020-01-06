@@ -7,6 +7,9 @@ import java.awt.event.ActionListener;
 import java.util.Arrays;
 
 public class RegisterPage implements ActionListener {
+    /*
+        variables declaration section
+                                        */
     private static final int width = 400;
     private static final int height = 600;
 
@@ -52,7 +55,8 @@ public class RegisterPage implements ActionListener {
     private JFrame frame;
 
 
-    public RegisterPage() {
+    public RegisterPage() // constructor initializing all components.
+     {
         this.registerLabel = new JLabel();
         this.registerPanel = new JPanel();
         this.namePanel = new JPanel();
@@ -84,11 +88,15 @@ public class RegisterPage implements ActionListener {
         this.passwordErrorLabel = new JLabel();
         this.buttonPanel = new JPanel();
         this.submitButton = new JButton("Submit");
-        this.mainPanel = new JPanel();
+        this.mainPanel = new JPanel();                  /* Main Panel = registerPanel + name panel + mailCheckPanel + genderpanel
+                                                                        + passwordPanel + passwordVerificationPanel + buttonPanel
+                                                                                                */
+
         this.frame = new JFrame("Register");
     }
 
-    public JPanel registerFrame() {
+    public JPanel registerFrame() //adds everything to the register frame with layouts included here.
+     {
         this.registerPanel.setLayout(new BoxLayout(this.registerPanel, BoxLayout.Y_AXIS));
         this.registerPanel.add(Box.createHorizontalStrut(40));
         this.registerPanel.add(Box.createVerticalStrut(-10));
@@ -166,19 +174,21 @@ public class RegisterPage implements ActionListener {
         return mainPanel;
     }
 
-    public boolean isValid(String email) {
+    public boolean isValid(String email) //email checking if email pattern is entered correctly or not.
+    {
         String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
         return email.matches(regex);
     }
 
     public void start() {
         registerPageFrame();
-    }
+    } // calls the function which adds all components into one.
 
-    public void registerPageFrame() {
+    public void registerPageFrame() //this adds all the components into frame. Buttons have actionListener.
+     {
         frame.setResizable(false);
         frame.setSize(width, height);
-        frame.add(registerFrame());
+        frame.add(registerFrame()); // this registerFrame() functions contains all swing components(above LOCs) which are added to frame
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -186,33 +196,48 @@ public class RegisterPage implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        boolean success =false;
-        if (e.getActionCommand().equals("regSubmit")) {
-            this.regEmail = emailField.getText();
+        boolean success =false; //setting up flag. If true, initiate process of sending data to server.
+        if (e.getActionCommand().equals("regSubmit")) // this runs if the register button is pressed.
+        {
+            this.regEmail = emailField.getText(); // what email address written is stored in regEmail var.
 
-            if ((Arrays.equals(passwordField.getPassword(), verifyPassWordField.getPassword())) && isValid(regEmail)) {
-                passwordVerifyErrorPanel.setVisible(false);
-                mailCheckPanel.setVisible(false);
+            if ((Arrays.equals(passwordField.getPassword(), verifyPassWordField.getPassword())) && isValid(regEmail)) /*checks if password entered in two fields are same or not
+                                                                                                                        and also if email is valid or not. If password and email both
+                                                                                                                        are valid then this statement runs */
+            {
+                passwordVerifyErrorPanel.setVisible(false); // if password match, dont show password mismatch feature. As password verification is done above, this is always set to false(hide it)
+                mailCheckPanel.setVisible(false); // if email match, dont show email invalid. As email verification is done above, this is always hidden
                 try {
-                    regUsername = nameField.getText();
-                    regGender = buttonGroup.getSelection().getActionCommand();
-                    password = passwordField.getPassword();
-                    if (regUsername.equals("") || regEmail.equals("") || password.length == 0) {
-                        throw new Exception();
+                    regUsername = nameField.getText(); //store username
+                    regGender = buttonGroup.getSelection().getActionCommand(); //store gender
+                    password = passwordField.getPassword(); //store password
+                    if (regUsername.equals("") || regEmail.equals("") || password.length == 0) // if anything is empty show a dialogue box saying to fill all fields
+                    {
+                        throw new Exception(); // throw an exception ( which basically says to fill all fields)
                     } else {
-                        success = true;
+                        success = true;     // if everything is filled then set success as true ( this means its ready to send data to server, success variable acts as a flag. )
                     }
-                } catch (Exception err) {
-                    JOptionPane.showMessageDialog(frame, "Please fill all fields", "Error", JOptionPane.ERROR_MESSAGE);
+                } catch (Exception err)
+                {
+                    JOptionPane.showMessageDialog(frame, "Please fill all fields", "Error", JOptionPane.ERROR_MESSAGE); //pops up an error dialogue box if any field is empty
                 }
-                if (success) {
-                    System.out.println("works till here");
+                if (success) /*
 
-                    ServerConnect serverConnect = new ServerConnect("register", regUsername, regEmail, regGender, password);
+                 the main part where data is sent to server after email, password, username is filled correctly
+
+                                                                                            */
+                {
+
+                    ServerConnect serverConnect = new ServerConnect("register", regUsername, regEmail, regGender, password); /*ServerConnect class is equivalent to binding all data
+                                                                                                                                        into one object and passing that object to server
+                                                                                                                                        (Uses object serialization)
+                                                                                                                                        */
                     try {
 
-                            serverConnect.run();
-                            if (serverConnect.isRegistered() && !serverConnect.isSameEmail()) {
+                            serverConnect.run(); // program execution goes to serverConnect run() function
+                            if (serverConnect.isRegistered() && !serverConnect.isSameEmail()) // the isRegistered and isSameEmail flag is set up by the serverconnect object
+                                                                                                // this checks if the user is registered successfully or if the email clash
+                            {
 
                             emailSame = false;
                             JOptionPane.showMessageDialog(frame, "Register Successful");
@@ -221,32 +246,47 @@ public class RegisterPage implements ActionListener {
                             loginPage.run();
 
                         } else {
-                            if(serverConnect.isSameEmail())
+                            if(serverConnect.isSameEmail()) // case for same email.
                             {
                                 JOptionPane.showMessageDialog(frame,"Email Already Taken", "Error",JOptionPane.ERROR_MESSAGE);
                             }
-                            else if(!serverConnect.isRegistered()) {
+                            else if(!serverConnect.isRegistered()) //case for register unsuccessful
+                            {
                                 JOptionPane.showMessageDialog(frame, "Cannot Register. Server Is Offline", "Error", JOptionPane.ERROR_MESSAGE);
                             }
                         }
                     } catch (Exception err) {
                         System.out.println(err.getMessage());
-                    }
+                    } // end of if (success)
                 }
-            } else{
+                /*
+                end of  if ((Arrays.equals(passwordField.getPassword(), verifyPassWordField.getPassword())) && isValid(regEmail))
+                 */
+            }
+            else // says what to do if password or email does not match.
+                {
                 Font font = new Font("", Font.PLAIN, 10);
-                if (!isValid(regEmail)) {
+                if (!isValid(regEmail)) //case for email pattern mismatch
+                {
                     mailCheckLabel.setForeground(Color.RED);
                     mailCheckLabel.setFont(font);
                     mailCheckLabel.setText("*ENTER A VALID EMAIL ADDRESS");
                     mailCheckPanel.add(mailCheckLabel);
-                    mailCheckPanel.setVisible(true);
+                    mailCheckPanel.setVisible(true);// sets the error panel and is shown
                 } else {
+                    /* This else here works as
+                        1) In first try if email is wrong, the above if statement gets executed. The above statement displays email mismatch message
+                        2) Now if you correct it, the email mismatch error is still displayed even though corrected email is entered
+                        3) This else statement is added here to not show the mismatch error if email is corrected. It hides the error panel
+                        */
                     mailCheckPanel.setVisible(false);
                 }
-                if ((Arrays.equals(passwordField.getPassword(), verifyPassWordField.getPassword()))) {
+                if ((Arrays.equals(passwordField.getPassword(), verifyPassWordField.getPassword()))) // case for password mismatch
+                {
                     passwordVerifyErrorPanel.setVisible(false);
-                } else {
+                } else
+                    /* else is written for the same reasons as for email's above */
+                    {
                     passwordErrorLabel.setForeground(Color.RED);
                     passwordErrorLabel.setFont(font);
                     this.passwordErrorLabel.setText("*PASSWORD DOES NOT MATCH");

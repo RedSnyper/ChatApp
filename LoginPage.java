@@ -122,16 +122,16 @@ public class LoginPage implements ActionListener {
     }
 
 
-    public JPanel setMainPanel() /* this makes a mainPanel, adds the mathi ko two panels
+    public JPanel setMainPanel() /* this main panel adds two panels
                                    MainPanel = loginPanel + RegisterPanel and returns this panel. This panel is
-                                    later used in Frame.java */
+                                   added to frame which is done in run() function. The login UI ends with this. */
     {
         this.mainPanel.add(setLoginPanel(),BorderLayout.NORTH);
         this.mainPanel.add(setRegisterPanel(),BorderLayout.SOUTH);
         return this.mainPanel;
     }
 
-    public void run()
+    public void run()     //adds everything into frame and shows it. The components have action listener to perform actions. More on actionPerformed() function.
     {
         frame.setSize(this.width,this.height);
         frame.setLocationRelativeTo(null);
@@ -146,11 +146,11 @@ public class LoginPage implements ActionListener {
     }
 
     public void actionPerformed(ActionEvent e) {
-        if(e.getActionCommand().equals("register"))
+        if(e.getActionCommand().equals("register")) // from the main panel if users clicks on register button this gets executed
         {
-            frame.dispose();
+            frame.dispose(); // closes current entire frame to load register frame.
             RegisterPage registerPage = new RegisterPage();
-            registerPage.start();
+            registerPage.start(); // this starts the register frame. Program execution goes to start() function of RegisterPage class
 
         }
         if (e.getActionCommand().equals("submit")) {
@@ -170,7 +170,7 @@ public class LoginPage implements ActionListener {
                     */
                         frame.dispose();
 
-                        System.out.println(this.userEmail);
+                        //System.out.println("UserEmail=" + this.userEmail);
                         ChatFrame chatFrame = new ChatFrame();
                         chatFrame.run();
 
